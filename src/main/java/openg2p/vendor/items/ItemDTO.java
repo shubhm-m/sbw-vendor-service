@@ -2,6 +2,7 @@ package openg2p.vendor.items;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -9,13 +10,19 @@ import java.time.LocalDateTime;
 public class ItemDTO {
 
     private Long id;
+    @NotBlank(message = "Required")
     private String category;
     private String description;
+    @NotBlank(message = "Required")
+    private String serialId;
+    @NotBlank(message = "Required")
     private String modelName;
-    private double warranty;
+    @NotNull(message = "Required")
+    private Double warranty;
     private String condition;
-    private double vendorAmount;
-    private double maxAmount;
+    @NotNull(message = "Required")
+    private Double vendorAmount;
+    private Double maxAmount;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 }

@@ -17,29 +17,14 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotBlank
     private String category;
-
-    @NotBlank
     private String description;
-
-    @NotBlank
     private String modelName;
-
-    @Min(0)
     private double warranty;
-
-    @NotBlank
     private String condition;
-
-    @DecimalMin(value = "0.0", inclusive = false)
-    @Digits(integer = 10, fraction = 2)
     private double vendorAmount;
-
-    @DecimalMin(value = "0.0", inclusive = false)
-    @Digits(integer = 10, fraction = 2)
     private double maxAmount;
+    private String serialId;
 
     @JsonIgnore
     @Column(updatable = false)

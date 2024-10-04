@@ -28,7 +28,7 @@ public class ItemController {
     }
 
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<ApiResponse<Object>> addItem(@Valid @RequestBody Item item) {
+    public ResponseEntity<ApiResponse<Object>> addItem(@Valid @RequestBody ItemDTO item) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String datetime = LocalDateTime.now().format(formatter);
 
