@@ -1,4 +1,4 @@
-package openg2p.vendor.items;
+package openg2p.vendor.util;
 
 public class ApiResponse<T> {
     private int status;

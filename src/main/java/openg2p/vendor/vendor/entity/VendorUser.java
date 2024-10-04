@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "vendor_user")
@@ -24,5 +25,27 @@ public class VendorUser {
     @JsonIgnore
     @Column(name = "vendor_business_details_id")
     private Long vendorBusinessDetailsId;
+
+    @JsonIgnore
+    @Column(name = "user_details_id")
+    private Long userDetailsId;
+
+    @JsonIgnore
+    @Column(updatable = false)
+    private LocalDateTime createdDate = LocalDateTime.now();
+
+    @JsonIgnore
+    private LocalDateTime updatedDate = LocalDateTime.now();
+
+    @PrePersist
+    protected void onCreate() {
+        createdDate = LocalDateTime.now();
+        updatedDate = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedDate = LocalDateTime.now();
+    }
 }
 

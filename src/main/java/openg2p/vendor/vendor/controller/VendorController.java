@@ -2,7 +2,8 @@ package openg2p.vendor.vendor.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import openg2p.vendor.items.ApiResponse;
+import openg2p.vendor.util.ApiResponse;
+import openg2p.vendor.vendor.dto.SupervisorRegistrationDTO;
 import openg2p.vendor.vendor.dto.VendorRegistrationDTO;
 import openg2p.vendor.vendor.service.VendorUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -47,6 +50,26 @@ public class VendorController {
                 HttpStatus.OK.value(),
                 "Vendor registered successfully",
                 datetime,
+                responseMap
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/register/supervisor")
+    public ResponseEntity<ApiResponse<Object>> registerSuperUser(
+            @RequestBody @Valid SupervisorRegistrationDTO supervisorRegistrationDTO,
+            @RequestHeader("businessDetailsId") @NotNull Long businessDetailsId,
+            @RequestHeader("superUserEid") @NotBlank String superUserEid) throws IllegalAccessException {
+
+        if (!vendorUserService.isAllowed(superUserEid, "SuperUser"))
+            throw new IllegalAccessException("User not authorized");
+
+        HashMap<String, Long> responseMap = vendorUserService.registerSuperVisor(supervisorRegistrationDTO, businessDetailsId);
+
+        ApiResponse<Object> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "SuperUser registered successfully",
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")),
                 responseMap
         );
         return ResponseEntity.ok(response);

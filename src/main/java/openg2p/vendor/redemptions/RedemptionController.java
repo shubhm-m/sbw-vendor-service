@@ -1,8 +1,7 @@
 package openg2p.vendor.redemptions;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import openg2p.vendor.items.ApiResponse;
-import openg2p.vendor.items.Item;
+import openg2p.vendor.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/redemption")

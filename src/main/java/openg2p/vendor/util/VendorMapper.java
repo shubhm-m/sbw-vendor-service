@@ -1,6 +1,8 @@
 package openg2p.vendor.util;
 
+import openg2p.vendor.vendor.dto.SupervisorRegistrationDTO;
 import openg2p.vendor.vendor.dto.VendorRegistrationDTO;
+import openg2p.vendor.vendor.entity.UserDetails;
 import openg2p.vendor.vendor.entity.VendorBusinessDetails;
 import openg2p.vendor.vendor.entity.VendorUser;
 import org.mapstruct.BeforeMapping;
@@ -36,4 +38,12 @@ public abstract class VendorMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "vendorBusinessDetailsId", source = "vendorBusinessDetailsId")
     public abstract VendorUser toVendorUser(VendorRegistrationDTO dto, Long vendorBusinessDetailsId);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "userDetailsId", source = "userDetailsId")
+    @Mapping(target = "eid", source = "dto.eid")
+    public abstract VendorUser toVendorUser(SupervisorRegistrationDTO dto, Long userDetailsId);
+
+    @Mapping(target = "id", ignore = true)
+    public abstract UserDetails toUserDetails(SupervisorRegistrationDTO dto);
 }
