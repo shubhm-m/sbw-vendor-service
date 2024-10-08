@@ -5,5 +5,6 @@ import java.util.Optional;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
     Optional<Item> findBySerialId(String serialId);
+    Optional<Item> findBySerialIdAndIdNot(String serialId, Long id);
 }
 

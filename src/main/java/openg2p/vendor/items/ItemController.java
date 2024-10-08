@@ -1,9 +1,6 @@
 package openg2p.vendor.items;
 
-import lombok.extern.slf4j.Slf4j;
 import openg2p.vendor.util.ApiResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +11,11 @@ import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-@Slf4j
+
 @RestController
 @RequestMapping("/api/items")
 public class ItemController {
 
-    private static final Logger log = LoggerFactory.getLogger(ItemController.class);
     private final ItemService itemService;
 
     @Autowired
@@ -63,7 +59,7 @@ public class ItemController {
         try {
             List<Item> items = itemService.getAllItems();
             ApiResponse<Object> response = new ApiResponse<>(
-                    HttpStatus.CREATED.value(),
+                    HttpStatus.OK.value(),
                     "Successful",
                     datetime,
                     items
@@ -79,5 +75,35 @@ public class ItemController {
             );
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/view/{id}")
+    public ResponseEntity<ApiResponse<Object>> getById(@PathVariable Long id){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String datetime = LocalDateTime.now().format(formatter);
+        Item item = itemService.getItemById(id);
+        ApiResponse<Object> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Successful",
+                datetime,
+                item
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<ApiResponse<Object>> updateItem(@Valid @RequestBody ItemDTO itemDTO){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String datetime = LocalDateTime.now().format(formatter);
+        if (itemDTO.getId()==null)
+            throw new ValidationException("Id is required");
+        Item item = itemService.updateItem(itemDTO);
+        ApiResponse<Object> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Updated Successfully",
+                datetime,
+                item
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
