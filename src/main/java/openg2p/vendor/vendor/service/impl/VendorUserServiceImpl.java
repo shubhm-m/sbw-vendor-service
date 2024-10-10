@@ -1,8 +1,10 @@
 package openg2p.vendor.vendor.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import openg2p.vendor.vendor.dto.SupervisorRegistrationDTO;
 import openg2p.vendor.vendor.dto.VendorRegistrationDTO;
+import openg2p.vendor.vendor.dto.VendorResponseDTO;
 import openg2p.vendor.vendor.entity.UserDetails;
 import openg2p.vendor.vendor.entity.VendorBusinessDetails;
 import openg2p.vendor.vendor.entity.VendorUser;
@@ -101,6 +103,19 @@ public class VendorUserServiceImpl implements VendorUserService {
         responseMap.put("User ID", vendorUser.getId());
         responseMap.put("User Details ID", userDetails.getId());
         return responseMap;
+    }
+
+    @Override
+    public VendorResponseDTO getVendorByEid(String eid) {
+        Optional<VendorUser> vendorUserOptional = vendorUserRepository.findByEid(eid);
+        if (vendorUserOptional.isEmpty())
+            throw new ValidationException("Vendor Not Found");
+        Optional<VendorBusinessDetails> vendorBusinessDetails =
+                vendorBusinessDetailsRepository.findById(vendorUserOptional.get().getVendorBusinessDetailsId());
+        VendorResponseDTO vendorResponseDTO = new ObjectMapper().convertValue(vendorBusinessDetails.get(), VendorResponseDTO.class);
+        vendorResponseDTO.setEid(vendorUserOptional.get().getEid());
+        vendorResponseDTO.setUserType(vendorUserOptional.get().getUserType());
+        return vendorResponseDTO;
     }
 
     private String saveFile(MultipartFile file, String businessName) {

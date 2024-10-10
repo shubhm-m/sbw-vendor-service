@@ -89,7 +89,7 @@ public class GlobalExceptionHandler {
                 null
         );
 
-        return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).body(response);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
 
 

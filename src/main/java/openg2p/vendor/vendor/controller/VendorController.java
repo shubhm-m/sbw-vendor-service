@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import openg2p.vendor.util.ApiResponse;
 import openg2p.vendor.vendor.dto.SupervisorRegistrationDTO;
 import openg2p.vendor.vendor.dto.VendorRegistrationDTO;
+import openg2p.vendor.vendor.dto.VendorResponseDTO;
 import openg2p.vendor.vendor.service.VendorUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -71,6 +72,18 @@ public class VendorController {
                 "SuperUser registered successfully",
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")),
                 responseMap
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("get/{eid}")
+    public ResponseEntity<ApiResponse<Object>> getByEid(@PathVariable String eid){
+        VendorResponseDTO vendorResponseDTO = vendorUserService.getVendorByEid(eid);
+        ApiResponse<Object> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Fetched Successfully",
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")),
+                vendorResponseDTO
         );
         return ResponseEntity.ok(response);
     }
