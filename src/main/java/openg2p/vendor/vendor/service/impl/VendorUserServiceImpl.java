@@ -111,9 +111,23 @@ public class VendorUserServiceImpl implements VendorUserService {
         Optional<VendorUser> vendorUserOptional = vendorUserRepository.findByEid(eid);
         if (vendorUserOptional.isEmpty())
             throw new ValidationException("Vendor Not Found");
-        Optional<VendorBusinessDetails> vendorBusinessDetails =
-                vendorBusinessDetailsRepository.findById(vendorUserOptional.get().getVendorBusinessDetailsId());
-        VendorResponseDTO vendorResponseDTO = new ObjectMapper().convertValue(vendorBusinessDetails.get(), VendorResponseDTO.class);
+        VendorResponseDTO vendorResponseDTO = new VendorResponseDTO();
+        if (vendorUserOptional.get().getUserType().equals("SuperUser")) {
+            Optional<VendorBusinessDetails> vendorBusinessDetails =
+                    vendorBusinessDetailsRepository.findById(vendorUserOptional.get().getVendorBusinessDetailsId());
+            vendorResponseDTO = new ObjectMapper().convertValue(vendorBusinessDetails.get(), VendorResponseDTO.class);
+        }
+        else {
+            Optional<UserDetails> userDetailsOptional = userDetailsRepository.findById(
+                    vendorUserOptional.get().getUserDetailsId()
+            );
+            vendorResponseDTO = vendorMapper.toVendorResponseDTO(userDetailsOptional.get());
+//            vendorResponseDTO.setFirstName(userDetailsOptional.get().getFirstName());
+//            vendorResponseDTO.setLastName(userDetailsOptional.get().getLastName());
+//            vendorResponseDTO.setSupervisorEmail(userDetailsOptional.get().getSupervisorEmail());
+//            vendorResponseDTO.setPhoneNumber(userDetailsOptional.get().getPhoneNumber());
+        }
+        vendorResponseDTO.setId(vendorUserOptional.get().getId());
         vendorResponseDTO.setEid(vendorUserOptional.get().getEid());
         vendorResponseDTO.setUserType(vendorUserOptional.get().getUserType());
         return vendorResponseDTO;

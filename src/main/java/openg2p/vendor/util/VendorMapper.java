@@ -2,6 +2,7 @@ package openg2p.vendor.util;
 
 import openg2p.vendor.vendor.dto.SupervisorRegistrationDTO;
 import openg2p.vendor.vendor.dto.VendorRegistrationDTO;
+import openg2p.vendor.vendor.dto.VendorResponseDTO;
 import openg2p.vendor.vendor.entity.UserDetails;
 import openg2p.vendor.vendor.entity.VendorBusinessDetails;
 import openg2p.vendor.vendor.entity.VendorUser;
@@ -46,4 +47,7 @@ public abstract class VendorMapper {
 
     @Mapping(target = "id", ignore = true)
     public abstract UserDetails toUserDetails(SupervisorRegistrationDTO dto);
+
+    @Mapping(target = "id", ignore = true)
+    public abstract VendorResponseDTO toVendorResponseDTO(UserDetails userDetails);
 }
