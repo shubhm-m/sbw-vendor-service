@@ -1,4 +1,8 @@
-package openg2p.vendor.items;
+package openg2p.vendor.items.service;
+
+import openg2p.vendor.items.dto.ItemDTO;
+import openg2p.vendor.items.entity.Item;
+
 import java.util.List;
 
 public interface ItemService {
@@ -6,4 +10,5 @@ public interface ItemService {
     List<Item> getAllItems();
     Item getItemById(Long id);
     Item updateItem(ItemDTO itemDTO);
+    List<Item> getItemListByVendorId(Long vendorId);
 }

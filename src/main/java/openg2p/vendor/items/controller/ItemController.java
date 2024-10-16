@@ -1,5 +1,8 @@
-package openg2p.vendor.items;
+package openg2p.vendor.items.controller;
 
+import openg2p.vendor.items.dto.ItemDTO;
+import openg2p.vendor.items.service.ItemService;
+import openg2p.vendor.items.entity.Item;
 import openg2p.vendor.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -77,7 +80,21 @@ public class ItemController {
         }
     }
 
-    @GetMapping("/view/{id}")
+    @GetMapping("/list/vendor/{id}")
+    public ResponseEntity<ApiResponse<Object>> getItemListByVendorId(@PathVariable Long id){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String datetime = LocalDateTime.now().format(formatter);
+        List<Item> items = itemService.getItemListByVendorId(id);
+        ApiResponse<Object> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Successful",
+                datetime,
+                items
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/get/{id}")
     public ResponseEntity<ApiResponse<Object>> getById(@PathVariable Long id){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String datetime = LocalDateTime.now().format(formatter);

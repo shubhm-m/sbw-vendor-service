@@ -1,6 +1,11 @@
-package openg2p.vendor.items;
+package openg2p.vendor.items.service.impl;
+
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import openg2p.vendor.items.dto.ItemDTO;
+import openg2p.vendor.items.entity.Item;
+import openg2p.vendor.items.repository.ItemRepository;
+import openg2p.vendor.items.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ItemServiceImpl implements ItemService {
+class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
 
@@ -58,5 +63,10 @@ public class ItemServiceImpl implements ItemService {
             return itemRepository.save(item);
         }
         throw new ValidationException("Item not found with ID: " + itemDTO.getId());
+    }
+
+    @Override
+    public List<Item> getItemListByVendorId(Long vendorId) {
+        return itemRepository.findByVendorId(vendorId);
     }
 }

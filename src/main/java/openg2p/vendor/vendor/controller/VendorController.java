@@ -6,6 +6,7 @@ import openg2p.vendor.util.ApiResponse;
 import openg2p.vendor.vendor.dto.SupervisorRegistrationDTO;
 import openg2p.vendor.vendor.dto.VendorRegistrationDTO;
 import openg2p.vendor.vendor.dto.VendorResponseDTO;
+import openg2p.vendor.vendor.service.SupervisorRegistrationProjection;
 import openg2p.vendor.vendor.service.VendorUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/vendors")
@@ -84,6 +86,19 @@ public class VendorController {
                 "Fetched Successfully",
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")),
                 vendorResponseDTO
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("user/list/{id}")
+    public ResponseEntity<ApiResponse<Object>> getByEid(@PathVariable Long id){
+        List<SupervisorRegistrationProjection> userDetails =
+                vendorUserService.getUserListByVendorId(id);
+        ApiResponse<Object> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Fetched Successfully",
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")),
+                userDetails
         );
         return ResponseEntity.ok(response);
     }

@@ -1,41 +1,35 @@
-package openg2p.vendor.items;
+package openg2p.vendor.items.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
+@Table(name = "item_transaction")
 @Entity
-@Table(name = "items")
 @Getter
 @Setter
-public class Item {
-
+public class ItemTransactionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String category;
-    private String description;
-    private String modelName;
-    private double warranty;
-    private String condition;
-    private double vendorAmount;
-    private double maxAmount;
-    private String serialId;
-
-    @JsonIgnore
+    private Long vendorId;
+    private String beneficiaryId;
+    private String itemCode;
+    private Long vendorItemId;
+    private Long vendorImageId;
+    private Long beneficiaryImageId;
+    private String status;
     @Column(updatable = false)
+    @CreationTimestamp
     private LocalDateTime createdDate;
-
-    @JsonIgnore
     private LocalDateTime updatedDate;
 
     @PrePersist
     protected void onCreate() {
-        createdDate = LocalDateTime.now();
         updatedDate = LocalDateTime.now();
     }
 
@@ -44,4 +38,3 @@ public class Item {
         updatedDate = LocalDateTime.now();
     }
 }
-

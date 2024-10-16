@@ -1,4 +1,4 @@
-package openg2p.vendor.items;
+package openg2p.vendor.util;
 
 import lombok.Getter;
 import lombok.Setter;

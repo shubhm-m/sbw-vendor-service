@@ -1,4 +1,4 @@
-package openg2p.vendor.items;
+package openg2p.vendor.items.dto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,6 +22,8 @@ public class ItemDTO {
     private String condition;
     @NotNull(message = "Required")
     private Double vendorAmount;
+    @NotNull(message = "Required")
+    private Long vendorId;
     private Double maxAmount;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;

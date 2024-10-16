@@ -11,6 +11,7 @@ import openg2p.vendor.vendor.entity.VendorUser;
 import openg2p.vendor.vendor.repository.UserDetailsRepository;
 import openg2p.vendor.vendor.repository.VendorBusinessDetailsRepository;
 import openg2p.vendor.vendor.repository.VendorUserRepository;
+import openg2p.vendor.vendor.service.SupervisorRegistrationProjection;
 import openg2p.vendor.vendor.service.VendorUserService;
 import openg2p.vendor.util.VendorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -116,6 +117,11 @@ public class VendorUserServiceImpl implements VendorUserService {
         vendorResponseDTO.setEid(vendorUserOptional.get().getEid());
         vendorResponseDTO.setUserType(vendorUserOptional.get().getUserType());
         return vendorResponseDTO;
+    }
+
+    @Override
+    public List<SupervisorRegistrationProjection> getUserListByVendorId(Long vendorId) {
+        return vendorUserRepository.getUserListByVendorId(vendorId);
     }
 
     private String saveFile(MultipartFile file, String businessName) {
