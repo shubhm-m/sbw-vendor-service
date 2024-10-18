@@ -21,6 +21,7 @@ public class ItemTransactionDto {
     @NotNull(message = "Required")
     private Long vendorItemId;
     private Long vendorImageId;
+    private Long invoiceId;
     private Long beneficiaryImageId;
     private String status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:MM:SS")

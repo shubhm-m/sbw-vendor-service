@@ -21,6 +21,7 @@ public class ItemTransactionEntity {
     private String itemCode;
     private Long vendorItemId;
     private Long vendorImageId;
+    private Long invoiceId;
     private Long beneficiaryImageId;
     private String status;
     @Column(updatable = false)
